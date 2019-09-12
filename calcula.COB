@@ -1,21 +1,21 @@
       ******************************************************************
       * Author: Marco
-      * Date: 05-09-2019
-      * Purpose: calculos
+      * Date: 12-09-2019
+      * Purpose: avaliação
       * Tectonics: cobc
       ******************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. YOUR-PROGRAM-NAME.
+       PROGRAM-ID. AquelaCalculadora.
        DATA DIVISION.
        FILE SECTION.
        WORKING-STORAGE SECTION.
 
-       77  primeiroValor   pic 9(2).
-       77  segundoValor    pic 9(2).
-       77  soma            pic 9(2).
-       77  subtrai         pic 9(2).
-       77  divisao         pic 9(2).
-       77  multiplicar     pic 9(2).
+       77  primeiroValor   pic 9(3).
+       77  segundoValor    pic 9(3).
+       77  soma            pic 9(3).
+       77  subtrai         pic 9(3).
+       77  divisao         pic 9(3).
+       77  multiplicar     pic 9(3).
 
        77  escolha         pic 9(1).
 
@@ -35,7 +35,9 @@
            DISPLAY "Introduza valor1: ".
            ACCEPT primeiroValor.
 
-           perform until primeiroValor > 0 and primeiroValor < 10
+           perform until (primeiroValor > 0 and primeiroValor < 100) OR
+      -    " primeiroValor IS NOT NUMERIC"
+
              DISPLAY "Introduza valor1: "
              ACCEPT primeiroValor
 
@@ -45,7 +47,8 @@
            DISPLAY "Introduza valor2: ".
            ACCEPT segundoValor.
 
-           perform until segundoValor > 0 and segundoValor < 10
+           perform until (segundoValor > 0 and segundoValor < 100) OR
+      -    " segundoValor IS NOT NUMERIC"
              DISPLAY "Introduza valor2: "
              ACCEPT segundoValor
 
@@ -63,31 +66,50 @@
            ACCEPT escolha.
 
            IF escolha = 1
-               move multiplicar to m_multiplica
-               COMPUTE soma = primeiroValor + segundoValor
-               move soma to m_soma
+               GO TO SomaFunc
            END-IF.
 
            IF escolha = 2
-                COMPUTE subtrai = primeiroValor - segundoValor
-                move subtrai to m_subtrai
+                GO TO SubtraiFunc
            END-IF.
 
            IF escolha = 3
-               COMPUTE divisao = primeiroValor / segundoValor
-               move divisao to m_divisao
+               GO TO DivisaoFunc
            END-IF.
 
            IF escolha = 4
-               COMPUTE multiplicar = primeiroValor * segundoValor
-                move multiplicar TO m_multiplica
+               GO TO MultiplicaFunc
            END-IF.
 
-           DISPLAY "RESULTADOS: ".
-           DISPLAY "SOMA           " m_soma.
-           DISPLAY "SUBTRAI        " m_subtrai.
-           DISPLAY "DIVISAO        " m_divisao.
-           DISPLAY "MULTIPLICAR    " m_multiplica.
+           SomaFunc.
+               COMPUTE soma = primeiroValor + segundoValor
+               move soma to m_soma
+               DISPLAY "SOMA           " m_soma
+             STOP RUN.
+
+           SubtraiFunc.
+               COMPUTE subtrai = primeiroValor - segundoValor
+               move subtrai to m_subtrai
+               DISPLAY "SUBTRAI        " m_subtrai.
+             STOP RUN.
+
+           DivisaoFunc.
+             COMPUTE divisao = primeiroValor / segundoValor
+               move divisao to m_divisao
+               DISPLAY "DIVISAO        " m_divisao.
+             STOP RUN.
+
+           MultiplicaFunc.
+             COMPUTE multiplicar = primeiroValor * segundoValor
+               move multiplicar TO m_multiplica
+               DISPLAY "MULTIPLICAR    " m_multiplica.
+             STOP RUN.
+
+      *     DISPLAY "RESULTADOS: ".
+      *     DISPLAY "SOMA           " m_soma.
+      *     DISPLAY "SUBTRAI        " m_subtrai.
+      *     DISPLAY "DIVISAO        " m_divisao.
+      *     DISPLAY "MULTIPLICAR    " m_multiplica.
 
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM AquelaCalculadora.
